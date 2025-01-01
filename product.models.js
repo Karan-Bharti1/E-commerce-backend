@@ -7,7 +7,11 @@ const ProductSchema=new mongoose.Schema({
 sizes:[{type:String,
     required:true}
 ],
-ratings: {type:Number},
+ratings: {type:Number,
+    required:"true",
+    min:0,
+    max:5
+},
 imgURL:{
     type:String,
     required:true
@@ -47,7 +51,10 @@ details:[{
 }],
 reviews:[{
     type:String
-}]
+}],
+exchangePolicy:{
+    type:"String"
+}
 },{
     timestamps:true
 })
