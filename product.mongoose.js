@@ -12,6 +12,11 @@ imgURL:{
     type:String,
     required:true
 },
+
+brand:{
+type:String,
+required:true
+},
 tagline:{
     type:String,
     required:true
