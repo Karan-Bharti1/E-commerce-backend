@@ -12,7 +12,11 @@ imgURL:{
     type:String,
     required:true
 },
-
+category:{type: mongoose.Schema.Types.ObjectId,ref:"Category"},
+gender:{
+    type:"String",
+    enum:["male","female","unisex"]
+},
 brand:{
 type:String,
 required:true
