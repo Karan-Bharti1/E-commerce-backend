@@ -135,6 +135,26 @@ res.status(200).json({message:"Data updated Successfully",updatedData})
         req.status(500).json({error: "Failed to update Product Data"})
     }
 })
+const deleteProductData=async (productId) => {
+    try {
+      const deletedData=await Product.findByIdAndDelete(productId)
+      return deletedData
+    } catch (error) {
+       throw error
+    }
+}
+app.delete("/products/:productId",async (req,res) => {
+    try {
+      const deletedData=await deleteProductData(req.params.productId)
+      if(deletedData){
+        res.status(200).json({message:"Data deleted successfully",deletedData})
+      }else{
+        res.status(400).json({error:"Product  data not Found"})
+      }
+    } catch (error) {
+        req.status(500).json({error: "Failed to Delete Product Data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
