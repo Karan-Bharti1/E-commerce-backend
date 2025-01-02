@@ -96,6 +96,25 @@ app.get("/categories",async (req,res) => {
         req.status(500).json({error: "Failed to get Categories Data"})
     }
 })
+const createProductData=async (data) => {
+    try {
+     const newProductData=new Product(data)
+     const saveData=newProductData.save()
+     return saveData
+    } catch (error) {
+        throw error
+    }
+}
+app.post("/products",async (req,res) => {
+    try {
+   const newData=await createProductData(req.body)
+   if(newData){
+    res.status(200).json({message: "Data added successfully",newData})
+   }
+    } catch (error) {
+        req.status(500).json({error: "Failed to create Product Data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
