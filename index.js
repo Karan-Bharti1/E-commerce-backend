@@ -34,7 +34,28 @@ app.get("/products",async (req,res) => {
       res.status(500).json({error:"Error while getting products data"})
     }
 })
+const readProductDataById=async (productId)=>{
+try {
+   const productData=await Product.findById(productId)
+   return productData
+} catch (error) {
+    throw error
+}
 
+}
+app.get("/products/:productId",async (req,res) => {
+    try {
+        const productData=await readProductDataById(req.params.productId)
+        if(productData){
+            res.status(200).json(productData)
+
+        }else{
+            res.status(500).json({error:"Product Not Found"})
+        }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
