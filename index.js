@@ -115,6 +115,26 @@ app.post("/products",async (req,res) => {
         req.status(500).json({error: "Failed to create Product Data"})
     }
 })
+const updateProductData=async(productId,dataToBeUpdated)=>{
+    try {
+      const updatedData=await Product.findByIdAndUpdate(productId,dataToBeUpdated,{new:true})
+      return updatedData
+    } catch (error) {
+        throw error
+    }
+}
+app.post("/products/:productId",async (req,res) => {
+    try {
+       const updatedData=await updateProductData(req.params.productId,req.body)
+       if (updatedData){
+res.status(200).json({message:"Data updated Successfully",updatedData})
+       }else{
+        res.status(400).json({error:"Product  data not Found"})
+      }
+    } catch (error) {
+        req.status(500).json({error: "Failed to update Product Data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
