@@ -76,6 +76,26 @@ app.get("/products/category/:categoryId",async (req,res) => {
         res.status(500).json({error:"Failed to get data"})
     }
 })
+const readAllCategoriesData=async () => {
+    try {
+      const categoryData=await Category.find()
+      return categoryData
+    } catch (error) {
+        throw error
+    }
+}
+app.get("/categories",async (req,res) => {
+    try {
+      const categoriesData=await readAllCategoriesData()
+      if(categoriesData && categoriesData.length>0){
+        res.status(200).json(categoriesData)
+      }else{
+        res.status(400).json({error:"Categories data not Found"})
+      }
+    } catch (error) {
+        req.status(500).json({error: "Failed to get Categories Data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
