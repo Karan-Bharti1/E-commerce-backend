@@ -36,7 +36,7 @@ app.get("/products",async (req,res) => {
 })
 const readProductDataById=async (productId)=>{
 try {
-   const productData=await Product.findById(productId)
+   const productData=await Product.findById(productId).populate("category")
    return productData
 } catch (error) {
     throw error
@@ -50,7 +50,27 @@ app.get("/products/:productId",async (req,res) => {
             res.status(200).json(productData)
 
         }else{
-            res.status(500).json({error:"Product Not Found"})
+            res.status(400).json({error:"Product Not Found"})
+        }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get data"})
+    }
+})
+const readDataByCategoryId=async (categoryId)=>{ 
+    try {
+        const productsData=await Product.find({category:categoryId}).populate("category")
+        return productsData
+    } catch (error) {
+        throw error
+    }
+}
+app.get("/products/category/:categoryId",async (req,res) => {
+    try {
+        const productsData=await readDataByCategoryId(req.params.categoryId)
+        if(productsData){
+            res.status(200).json(productsData)
+        }else{
+            res.status(404).json({error:"Products Not Found"})
         }
     } catch (error) {
         res.status(500).json({error:"Failed to get data"})
