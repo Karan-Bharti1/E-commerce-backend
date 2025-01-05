@@ -184,7 +184,7 @@ app.post("/cart",async(req,res)=>{
 })
 const readCartData=async()=>{
     try{
-const cartData=await Cart.find()
+const cartData=await Cart.find().populate("productDetails")
 return cartData
     }
     catch (error) {
@@ -193,7 +193,7 @@ return cartData
 }
 app.get("/cart",async (req,res) => {
     try {
-        const cartData=await readCartData().populate(productDetails)
+        const cartData=await readCartData()
         if(cartData && cartData.length>0){
             res.status(200).json(cartData)
         }else{
