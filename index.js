@@ -12,6 +12,7 @@ const corsOptions={
 app.use(cors(corsOptions))
 const Category=require("./category.models")
 const Product=require("./product.models")
+const Cart=require("./Cart.models")
 const PORT=3000
 const readAllProducts=async () => {
     try {
@@ -153,6 +154,26 @@ app.delete("/products/:productId",async (req,res) => {
       }
     } catch (error) {
         req.status(500).json({error: "Failed to Delete Product Data"})
+    }
+})
+const addNewItemInCart=async (itemData) => {
+    try {
+        const newData=new Cart(itemData)
+        const saveData=await newData.save()
+        return saveData
+    } catch (error) {
+        throw error
+    }
+}
+app.post("/cart",async(req,res)=>{
+    try {
+        const newData= await addNewItemInCart(req.body)
+        if(newData){
+            res.status(200).json(newData)
+        }
+    } catch (error) {
+        console.log(error)
+    res.status(500).json({error:"Failed to add item in the cart"})    
     }
 })
 app.listen(PORT,()=>{

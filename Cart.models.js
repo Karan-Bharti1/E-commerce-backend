@@ -16,4 +16,4 @@ productDetails:{
     timestamps:true
 })
 const Cart=mongoose.model("Cart",CartSchema)
-modules.export=Cart
+module.exports=Cart
