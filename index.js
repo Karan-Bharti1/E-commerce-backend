@@ -193,7 +193,7 @@ return cartData
 }
 app.get("/cart",async (req,res) => {
     try {
-        const cartData=await readCartData()
+        const cartData=await readCartData().populate(productDetails)
         if(cartData && cartData.length>0){
             res.status(200).json(cartData)
         }else{
