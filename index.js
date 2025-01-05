@@ -158,6 +158,12 @@ app.delete("/products/:productId",async (req,res) => {
 })
 const addNewItemInCart=async (itemData) => {
     try {
+        const existingItem=await Cart.findOne({productDetails:itemData.productDetails,size:itemData.size})
+        if(existingItem){
+            existingItem.quantity+=1
+            const updatedData=await existingItem.save()
+            return updatedData
+        }
         const newData=new Cart(itemData)
         const saveData=await newData.save()
         return saveData
@@ -174,6 +180,27 @@ app.post("/cart",async(req,res)=>{
     } catch (error) {
         console.log(error)
     res.status(500).json({error:"Failed to add item in the cart"})    
+    }
+})
+const readCartData=async()=>{
+    try{
+const cartData=await Cart.find()
+return cartData
+    }
+    catch (error) {
+        throw error
+    }
+}
+app.get("/cart",async (req,res) => {
+    try {
+        const cartData=await readCartData()
+        if(cartData && cartData.length>0){
+            res.status(200).json(cartData)
+        }else{
+            res.status(404).json({error:"Cart Data Not Found"})
+        }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get items in cart"})   
     }
 })
 app.listen(PORT,()=>{
