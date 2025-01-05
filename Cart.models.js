@@ -6,8 +6,7 @@ selectedSize:{
 },
 quantity:{
     type:Number,
-    required:true,
-    default:0
+    default:1
 },
 productDetails:{
     type:mongoose.Schema.Types.ObjectId,ref:"Product",
