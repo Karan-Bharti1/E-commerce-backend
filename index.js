@@ -203,6 +203,26 @@ app.get("/cart",async (req,res) => {
         res.status(500).json({error:"Failed to get items in cart"})   
     }
 })
+async function deleteItemsInCartById(itemId){
+    try {
+      const deletedData=await Cart.findByIdAndDelete(itemId)  
+      return deletedData
+    } catch (error) {
+       throw error 
+    }
+}
+app.delete("/cart/:cartId",async(req,res)=>{
+    try {
+      const deletedData=await deleteItemsInCartById(req.params.cartId)
+      if(deletedData){
+res.status(200).json({message:"Cart item deleted successfully"})
+      }else{
+res.status(404).json({error:"Cart Item Not found"})
+      } 
+    } catch (error) {
+        res.status(500).json({error:"Failed to add data in to the cart"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
