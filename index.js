@@ -158,7 +158,7 @@ app.delete("/products/:productId",async (req,res) => {
 })
 const addNewItemInCart=async (itemData) => {
     try {
-        const existingItem=await Cart.findOne({productDetails:itemData.productDetails,size:itemData.size})
+        const existingItem=await Cart.findOne({productDetails:itemData.productDetails,selectedSize:itemData.size})
         if(existingItem){
             existingItem.quantity+=1
             const updatedData=await existingItem.save()
