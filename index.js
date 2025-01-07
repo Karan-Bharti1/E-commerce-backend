@@ -182,9 +182,30 @@ app.post("/cart",async(req,res)=>{
     res.status(500).json({error:"Failed to add item in the cart"})    
     }
 })
+const findCartDataByIdAndUpdate=async(cartId,dataToBeUpdated)=>{
+    try {
+        const updatedData=await Cart.findByIdAndUpdate(cartId,dataToBeUpdated)
+        return updatedData
+    } catch (error) {
+        throw error
+    }
+}
+app.post("/cart/:cartId",async(req,res)=>{
+    try {
+      const updatedData=await findCartDataByIdAndUpdate(req.params.cartId,req.body)  
+      if(updatedData){
+        res.status(200).json(updatedData)
+    }else{
+        res.status(404).json({error:"Item not found in the cart"})
+    }
+    } catch (error) {
+        res.status(500).json({error:"Failed to update item in the cart"})   
+    }
+})
 const readCartData=async()=>{
     try{
 const cartData=await Cart.find().populate("productDetails")
+
 return cartData
     }
     catch (error) {
