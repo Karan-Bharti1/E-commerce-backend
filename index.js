@@ -156,24 +156,19 @@ app.delete("/products/:productId",async (req,res) => {
         req.status(500).json({error: "Failed to Delete Product Data"})
     }
 })
-const addNewItemInCart=async (itemData) => {
+const addNewItemInCart = async (itemData) => {
     try {
-        const existingItem=await Cart.findOne(({productDetails:itemData.productDetails,selectedSize:itemData.selectedSize}))
-        if(!existingItem){
-            const newData=new Cart(itemData)
-            const saveData=await newData.save()
-            return saveData
-        }
-        if(existingItem){
-            const findexisistingData=await Cart.findOneAndUpdate({productDetails:itemData.productDetails,selectedSize:itemData.selectedSize},
-                {quantity:itemData.quantity+1},{new:true})
-                return findexisistingData
-        }
-     
+        const updatedItem = await Cart.findOneAndUpdate(
+            { productDetails: itemData.productDetails, selectedSize: itemData.selectedSize },
+            { $inc: { quantity: 1 } }, 
+            { upsert: true, new: true } 
+        );
+        return updatedItem;
     } catch (error) {
-        throw error
+        throw error;
     }
-}
+};
+
 app.post("/cart",async(req,res)=>{
     try {
         const newData= await addNewItemInCart(req.body)
