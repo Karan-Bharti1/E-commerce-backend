@@ -165,7 +165,7 @@ const addNewItemInCart=async (itemData) => {
             return saveData
         }
         if(existingItem){
-            const findexisitingData=await Cart.findOneAndUpdate({productDetails:itemData.productDetails,selectedSize:itemData.size},
+            const findexisitingData=await Cart.findOneAndUpdate({productDetails:itemData.productDetails,selectedSize:itemData.selectedSize},
                 {quantity:itemData.quantity+1},{new:true})
                 return findexisitingData
         }
