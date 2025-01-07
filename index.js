@@ -158,15 +158,18 @@ app.delete("/products/:productId",async (req,res) => {
 })
 const addNewItemInCart=async (itemData) => {
     try {
-        const existingItem=await Cart.findOne({productDetails:itemData.productDetails,selectedSize:itemData.size})
-        if(existingItem){
-            existingItem.quantity+=1
-            const updatedData=await existingItem.save()
-            return updatedData
+        const existingItem=await Cart.findOne(({productDetails:itemData.productDetails,selectedSize:itemData.size}))
+        if(!existingItem){
+            const newData=new Cart(itemData)
+            const saveData=await newData.save()
+            return saveData
         }
-        const newData=new Cart(itemData)
-        const saveData=await newData.save()
-        return saveData
+        if(existingItem){
+            const findexisitingData=await Cart.findOneAndUpdate({productDetails:itemData.productDetails,selectedSize:itemData.size},
+                {quantity:itemData.quantity+1},{new:true})
+                return findexisitingData
+        }
+     
     } catch (error) {
         throw error
     }
