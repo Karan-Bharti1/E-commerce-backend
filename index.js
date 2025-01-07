@@ -169,17 +169,21 @@ const addNewItemInCart = async (itemData) => {
     }
 };
 
-app.post("/cart",async(req,res)=>{
+app.post("/cart", async (req, res) => {
+    console.log("Request Body:", req.body); 
     try {
-        const newData= await addNewItemInCart(req.body)
-        if(newData){
-            res.status(200).json(newData)
+        const { productDetails, selectedSize, quantity } = req.body;
+        if (!productDetails || !selectedSize || !quantity) {
+            return res.status(400).json({ error: "Invalid request data" });
         }
+        const newData = await addNewItemInCart(req.body);
+        return res.status(200).json(newData);
     } catch (error) {
-        console.log(error)
-    res.status(500).json({error:"Failed to add item in the cart"})    
+        console.error("Error in /cart endpoint:", error.message);
+        res.status(500).json({ error: "Failed to add item to cart" });
     }
-})
+});
+
 const findCartDataByIdAndUpdate=async(cartId,dataToBeUpdated)=>{
     try {
         const updatedData=await Cart.findByIdAndUpdate(cartId,dataToBeUpdated)
