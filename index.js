@@ -13,7 +13,7 @@ app.use(cors(corsOptions))
 const Category=require("./category.models")
 const Product=require("./product.models")
 const Cart=require("./Cart.models")
-const { findById } = require('./wishlist.models')
+
 const Wishlist = require('./wishlist.models')
 const PORT=3000
 const readAllProducts=async () => {
@@ -290,6 +290,26 @@ app.get("/wishlist",async(req,res)=>{
         }
     } catch (error) {
       res.status(500).json({error:"Failed to fetch wishlist  data"})  
+    }
+})
+const deleteWishlistDataById=async(wishListId)=>{
+    try {
+      const deletedData  =await Wishlist.findByIdAndDelete(wishListId)
+      return deletedData
+    } catch (error) {
+        throw error
+    }
+}
+app.delete("/wishlist/:wishlistId",async(req,res)=>{
+    try {
+        const deletedData=await deleteWishlistDataById(req.params.wishlistId)
+        if(deletedData){
+            res.status(200).json({message:"Item deleted from wishlist successfully"})
+        }else{
+            res.status(404).json({error:"Item not found"})
+        }
+    } catch (error) {
+        res.status(500).json({error:"Failed to delete wishlist  data"})  
     }
 })
 app.listen(PORT,()=>{
