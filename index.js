@@ -274,7 +274,7 @@ app.post("/wishlist",async(req,res)=>{
 })
 const readAllWishlistData=async()=>{
     try {
-      const wishlistData=await Wishlist.find()
+      const wishlistData=await Wishlist.find().populate("productDetails")
       return wishlistData  
     } catch (error) {
       throw error  
