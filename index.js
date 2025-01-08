@@ -13,6 +13,8 @@ app.use(cors(corsOptions))
 const Category=require("./category.models")
 const Product=require("./product.models")
 const Cart=require("./Cart.models")
+const { findById } = require('./wishlist.models')
+const Wishlist = require('./wishlist.models')
 const PORT=3000
 const readAllProducts=async () => {
     try {
@@ -244,6 +246,30 @@ res.status(404).json({error:"Cart Item Not found"})
       } 
     } catch (error) {
         res.status(500).json({error:"Failed to add data in to the cart"})
+    }
+})
+const addNewProductToWishlist=async(productData)=>{
+    try {
+      const existingItem=await  Wishlist.findOne({productDetails:productData.productDetails})  
+      if(!existingItem){
+        const newWishListItem=new Wishlist(productData)
+        const saveData=await newWishListItem.save()
+        return saveData
+      }
+    } catch (error) {
+        throw error
+    }
+}
+app.post("/wishlist",async(req,res)=>{
+    try {
+      const newData=await addNewProductToWishlist(req.body)  
+      if(newData){
+        res.status(200).json(newData)
+      }else{
+        res.status(404).json({error:"Item already existinng in the cart"})
+      }
+    } catch (error) {
+        res.status(500).json({error:"Failed to add item to wishlist"})
     }
 })
 app.listen(PORT,()=>{
