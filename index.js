@@ -272,6 +272,26 @@ app.post("/wishlist",async(req,res)=>{
         res.status(500).json({error:"Failed to add item to wishlist"})
     }
 })
+const readAllWishlistData=async()=>{
+    try {
+      const wishlistData=await Wishlist.find()
+      return wishlistData  
+    } catch (error) {
+      throw error  
+    }
+}
+app.get("/wishlist",async(req,res)=>{
+    try {
+        const wishlistData=await readAllWishlistData()
+        if(wishlistData && wishlistData.length>0){
+            res.status(200).json(wishlistData)
+        }else{
+            res.status(404).json({error:"Wishlist Data Not Found"})
+        }
+    } catch (error) {
+      res.status(500).json({error:"Failed to fetch wishlist  data"})  
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
