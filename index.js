@@ -266,7 +266,7 @@ app.post("/wishlist",async(req,res)=>{
       if(newData){
         res.status(200).json(newData)
       }else{
-        res.status(404).json({error:"Item already existinng in the cart"})
+        res.status(404).json({error:"Item already existinng in the wishlist"})
       }
     } catch (error) {
         res.status(500).json({error:"Failed to add item to wishlist"})
