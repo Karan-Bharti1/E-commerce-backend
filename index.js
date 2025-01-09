@@ -266,10 +266,30 @@ app.post("/wishlist",async(req,res)=>{
       if(newData){
         res.status(200).json(newData)
       }else{
-        res.status(404).json({error:"Item already existinng in the wishlist"})
+        res.status(404).json({error:"Item already existing in the wishlist"})
       }
     } catch (error) {
         res.status(500).json({error:"Failed to add item to wishlist"})
+    }
+})
+const getWishlistDataByProductDetails=async(productId)=>{
+    try {
+    const wishlistData=await Wishlist.findOne({productDetails:productId})    
+    return wishlistData
+    } catch (error) {
+throw error        
+    }
+}
+app.get("/wishlist/:productId",async(req,res)=>{
+    try {
+      const wishlistData=await getWishlistDataByProductDetails(req.params.productId)
+      if(wishlistData){
+        res.status(200).json(wishlistData)
+      }  else{
+        res.status(400).json({error:"Item not found"})
+      }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get item from wishlist"})
     }
 })
 const readAllWishlistData=async()=>{
