@@ -373,6 +373,27 @@ app.post("/address/:addressId",async(req,res)=>{
         res.status(500).json({error:"Failed to update address data"})
     }
 })
+const findAddressDataByIdAndDeleteIt=async (addressId) => {
+    try {
+        const deletedData=await Address.findByIdAndDelete(addressId)
+        return deletedData
+    } catch (error) {
+        console.log(error)  
+    }  
+}
+app.delete("/address/:addressId",async (req,res) => {
+    try {
+        const deletedData=await findAddressDataByIdAndDeleteIt(req.params.addressId)
+        if(deletedData){
+            res.status(200).json({message:"Address deleted successfully",deletedData})
+           }else{
+            res.status(404).json({error:"Address Not Found"})
+           }
+    } catch (error) {
+        console.error("Error handling delete request:", error); 
+        res.status(500).json({error:"Failed to delete address data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
