@@ -15,6 +15,7 @@ const Product=require("./product.models")
 const Cart=require("./Cart.models")
 
 const Wishlist = require('./wishlist.models')
+const Address = require('./address.models')
 const PORT=3000
 const readAllProducts=async () => {
     try {
@@ -330,6 +331,25 @@ app.delete("/wishlist/:wishlistId",async(req,res)=>{
         }
     } catch (error) {
         res.status(500).json({error:"Failed to delete wishlist  data"})  
+    }
+})
+const createNewAddress=async (addressData) => {
+    try {
+      const newData=new Address(addressData)  
+      const saveData=await newData.save()
+      return saveData
+    } catch (error) {
+      console.log(error)  
+    }
+}
+app.post("/address",async(req,res)=>{
+    try {
+      const newData=await createNewAddress(req.body)  
+      if(newData){
+        res.status(200).json({message:"Address added successfully",newData})
+      }
+    } catch (error) {
+        res.status(500).json({error:"Failed to add address data"})
     }
 })
 app.listen(PORT,()=>{
