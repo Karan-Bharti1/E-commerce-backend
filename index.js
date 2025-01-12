@@ -352,6 +352,27 @@ app.post("/address",async(req,res)=>{
         res.status(500).json({error:"Failed to add address data"})
     }
 })
+const findAddressDataByIdAndUpdate=async (addressId,updatedData) => {
+    try {
+        const updateData=await Address.findByIdAndUpdate(addressId,updatedData,{new:true})
+        return updateData
+    } catch (error) {
+        console.log(error)  
+    }
+}
+app.post("/address/:addressId",async(req,res)=>{
+    try {
+       const updatedData=await findAddressDataByIdAndUpdate(req.params.addressId,req.body)
+       if(updatedData){
+        res.status(200).json({message:"Address updated successfully",updatedData})
+       }else{
+        res.status(404).json({error:"Address Not Found"})
+       }
+    } catch (error) {
+        console.error("Error updating address:", error); 
+        res.status(500).json({error:"Failed to update address data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
