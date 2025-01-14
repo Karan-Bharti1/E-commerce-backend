@@ -2,7 +2,6 @@ const mongoose=require('mongoose')
 const OrderSchema=new mongoose.Schema({
     address:{
         type:mongoose.Schema.Types.ObjectId,ref:"Address",
-        required:true
     },
     items:[{
         productDetails:{

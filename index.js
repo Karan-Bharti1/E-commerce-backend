@@ -16,6 +16,7 @@ const Cart=require("./Cart.models")
 
 const Wishlist = require('./wishlist.models')
 const Address = require('./address.models')
+const Order = require('./Order.models')
 const PORT=3000
 const readAllProducts=async () => {
     try {
@@ -412,6 +413,25 @@ app.get("/address",async(req,res)=>{
       }
     } catch (error) {
         res.status(500).json({error:"Failed to get address data"})
+    }
+})
+const createNewOrder=async(orderData)=>{
+    try {
+    const newOrder=await Order(orderData)    
+    return newOrder
+    } catch (error) {
+        console.log(error)
+    }
+}
+app.post("/orders",async(req,res)=>{
+    try {
+      const newOrder=await createNewOrder(req.body)
+      if(newOrder){
+        res.status(200).json(newOrder)
+      }  
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error:"Failed to create new Order"})
     }
 })
 app.listen(PORT,()=>{
