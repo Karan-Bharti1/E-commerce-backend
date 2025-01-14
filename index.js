@@ -394,6 +394,26 @@ app.delete("/address/:addressId",async (req,res) => {
         res.status(500).json({error:"Failed to delete address data"})
     }
 })
+const readAllAddressData=async()=>{
+    try {
+       const addressData=await Address.find()
+       return addressData
+    } catch (error) {
+        throw error
+    }
+}
+app.get("/address",async(req,res)=>{
+    try {
+      const addressData=await readAllAddressData()  
+      if(addressData && addressData.length>0){
+        res.status(200).json(addressData)
+      }else{
+        res.status(404).json({error:"Address Data Not Found"})
+      }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get address data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
