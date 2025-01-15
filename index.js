@@ -453,6 +453,26 @@ app.post("/orders",async(req,res)=>{
         res.status(500).json({error:"Failed to create new Order"})
     }
 })
+const readAllOrders=async()=>{
+    try {
+        const orders=await Order.find()
+        return orders
+    } catch (error) {
+       throw error
+    }
+}
+app.get("/orders",async(req,res)=>{
+    try {
+     const orders=await readAllOrders()  
+     if(orders && orders.length>0){
+        res.status(200).json(orders)
+     } else{
+        res.status(404).json({error:"Orders data not found"})
+     }
+    } catch (error) {
+        res.status(500).json({error:"Failed to get orders data"})
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
