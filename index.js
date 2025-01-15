@@ -455,7 +455,7 @@ app.post("/orders",async(req,res)=>{
 })
 const readAllOrders=async()=>{
     try {
-        const orders=await Order.find()
+        const orders=await Order.find().populate("items.productDetails")
         return orders
     } catch (error) {
        throw error
