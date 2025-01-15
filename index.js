@@ -230,6 +230,24 @@ app.get("/cart",async (req,res) => {
         res.status(500).json({error:"Failed to get items in cart"})   
     }
 })
+const emptyCart=async () => {
+    try {
+    const deletedData=await Cart.deleteMany({})  
+    return deletedData  
+    } catch (error) {
+        throw error
+    }
+}
+app.delete("/cart",async(req,res)=>{
+    try {
+        const deletedData=await emptyCart()
+       if(deletedData) {
+        res.status(200).json({message:"Cart is now empty"})
+       }
+    } catch (error) {
+        res.status(500).json({error:"Failed to empty cart"})
+    }
+})
 async function deleteItemsInCartById(itemId){
     try {
       const deletedData=await Cart.findByIdAndDelete(itemId)  
