@@ -435,8 +435,9 @@ app.get("/address",async(req,res)=>{
 })
 const createNewOrder=async(orderData)=>{
     try {
-    const newOrder=await Order(orderData)    
-    return newOrder
+    const newOrder=new Order(orderData)   
+    const saveData=await newOrder.save() 
+    return saveData
     } catch (error) {
         console.log(error)
     }
