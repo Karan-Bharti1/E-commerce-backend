@@ -12,7 +12,11 @@ const OrderSchema=new mongoose.Schema({
         quantity:{
             type:Number,
             required:true
-        }
+        },
+            selectedSize:{
+                type:Number,
+                required:true  
+            }
     }]
 },{
     timestamps:true
