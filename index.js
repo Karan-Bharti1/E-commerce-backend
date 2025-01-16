@@ -473,6 +473,27 @@ app.get("/orders",async(req,res)=>{
         res.status(500).json({error:"Failed to get orders data"})
     }
 })
+const readDataById=async(dataId)=>{
+    try {
+        const order=await Order.findById(dataId).populate("items.productDetails")
+        return order
+    } catch (error) {
+        throw error
+    }
+}
+app.get("/order/:orderId",async(req,res)=>{
+    try {
+      const order=await readDataById(req.params.orderId) 
+      if(order){
+        res.status(200).json(order)
+      }else{
+        res.status(404).json({error:"Order not Found"})
+      }
+  
+    } catch (error) {
+     res.status(500).json({error:"Failed to fetch order"})   
+    }
+})
 app.listen(PORT,()=>{
     console.log("Server is running on PORT: ",PORT)
 })
