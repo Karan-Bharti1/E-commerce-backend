@@ -13,8 +13,8 @@ const OrderSchema=new mongoose.Schema({
             type:Number,
             required:true
         },
-            selectedSize:{
-                type:Number,
+         selectedSize:{
+                type:String,
                 required:true  
             }
     }]
