@@ -53,7 +53,7 @@ I am currently learning Full Stack Web Development with a focus on the MERN stac
 - API to get order by order Id
 
 
-## Mongoose Model for the API's
+## Mongoose Models 
 
 # Products
 ```javascript
@@ -120,6 +120,7 @@ exchangePolicy:{
 const Product=mongoose.model('Product',ProductSchema)
 module.exports=Product
 
+```
 
 # Categories
 ```javascript
@@ -139,8 +140,8 @@ categoryImageURL:{
 const Category=mongoose.model("Category",CategorySchema)
 module.exports=Category
 
-
-# Wishlist
+```
+# Cart
 ```javascript
 const mongoose=require("mongoose")
 const CartSchema=new mongoose.Schema({
@@ -162,4 +163,90 @@ productDetails:{
 })
 const Cart=mongoose.model("Cart",CartSchema)
 module.exports=Cart
+
+```
+# Wishlist
+```javascript
+const mongoose=require('mongoose')
+
+const WishlistSchema=new mongoose.Schema({
+    productDetails:{
+          type:mongoose.Schema.Types.ObjectId,ref:"Product",
+    }
+},{
+    timestamps:true
+})
+const Wishlist=mongoose.model("Wishlist",WishlistSchema)
+module.exports=Wishlist
+
+```
+# Address
+``` javascript
+const mongoose=require('mongoose')
+const AddressSchema=new mongoose.Schema({
+recieversName:{
+    type:String,
+    required:true
+},
+recieversMobile:{
+    type:String,
+    required:true
+},
+pincode:{
+    type:String,
+    required:true
+},
+addressline1:{
+    type:String,
+    required:true
+},addressline2:{
+    type:String,
+    required:true
+},
+city:{
+    type:String,
+    required:true
+},
+state:{
+    type:String,
+    required:true
+},
+country:{
+    type:String,
+    required:true
+}
+},{
+    timestamps:true
+})
+const Address=mongoose.model("Address",AddressSchema)
+module.exports=Address
+
+```
+# Order
+``` javascript
+const mongoose=require('mongoose')
+const OrderSchema=new mongoose.Schema({
+    address:{
+        type:String,
+        required:true
+    },
+    items:[{
+        productDetails:{
+            type:mongoose.Schema.Types.ObjectId,ref:"Product",
+            required:true
+        },
+        quantity:{
+            type:Number,
+            required:true
+        },
+         selectedSize:{
+                type:String,
+                required:true  
+            }
+    }]
+},{
+    timestamps:true
+})
+const Order=mongoose.model("Order",OrderSchema)
+module.exports=Order
 
