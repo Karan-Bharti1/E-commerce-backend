@@ -55,7 +55,7 @@ I am currently learning Full Stack Web Development with a focus on the MERN stac
 
 ## Mongoose Models 
 
-# Products
+### Products
 ```javascript
 const mongoose=require('mongoose')
 const ProductSchema=new mongoose.Schema({
@@ -122,7 +122,7 @@ module.exports=Product
 
 ```
 
-# Categories
+### Categories
 ```javascript
 const mongoose=require("mongoose")
 const CategorySchema=new mongoose.Schema({
@@ -141,7 +141,7 @@ const Category=mongoose.model("Category",CategorySchema)
 module.exports=Category
 
 ```
-# Cart
+### Cart
 ```javascript
 const mongoose=require("mongoose")
 const CartSchema=new mongoose.Schema({
@@ -165,7 +165,7 @@ const Cart=mongoose.model("Cart",CartSchema)
 module.exports=Cart
 
 ```
-# Wishlist
+### Wishlist
 ```javascript
 const mongoose=require('mongoose')
 
@@ -180,7 +180,7 @@ const Wishlist=mongoose.model("Wishlist",WishlistSchema)
 module.exports=Wishlist
 
 ```
-# Address
+### Address
 ``` javascript
 const mongoose=require('mongoose')
 const AddressSchema=new mongoose.Schema({
@@ -222,7 +222,7 @@ const Address=mongoose.model("Address",AddressSchema)
 module.exports=Address
 
 ```
-# Order
+### Order
 ``` javascript
 const mongoose=require('mongoose')
 const OrderSchema=new mongoose.Schema({
@@ -249,4 +249,16 @@ const OrderSchema=new mongoose.Schema({
 })
 const Order=mongoose.model("Order",OrderSchema)
 module.exports=Order
+```
+## Middlewares and Cors
 
+```javascript
+app.use(express.json())// Middleware
+const cors=require('cors')
+const corsOptions={
+    origin:"*",
+    credentials:true,
+    optionsSuccessStatus:200
+}
+app.use(cors(corsOptions))// Cors
+```
