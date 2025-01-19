@@ -55,7 +55,7 @@ I am currently learning Full Stack Web Development with a focus on the MERN stac
 
 ## Mongoose Model for the API's
 
-#Products
+# Products
 ```javascript
 const mongoose=require('mongoose')
 const ProductSchema=new mongoose.Schema({
@@ -119,3 +119,47 @@ exchangePolicy:{
 })
 const Product=mongoose.model('Product',ProductSchema)
 module.exports=Product
+
+
+# Categories
+```javascript
+const mongoose=require("mongoose")
+const CategorySchema=new mongoose.Schema({
+categoryName:{
+    type:String,
+    required:true
+},
+categoryImageURL:{
+    type:String,
+    required:true
+}
+},{
+    timestamps:true
+})
+const Category=mongoose.model("Category",CategorySchema)
+module.exports=Category
+
+
+# Wishlist
+```javascript
+const mongoose=require("mongoose")
+const CartSchema=new mongoose.Schema({
+selectedSize:{
+    type:String,
+    required: true
+},
+quantity:{
+    type:Number,
+    default:1,
+    min:1
+},
+productDetails:{
+    type:mongoose.Schema.Types.ObjectId,ref:"Product",
+    required:true
+}
+},{
+    timestamps:true
+})
+const Cart=mongoose.model("Cart",CartSchema)
+module.exports=Cart
+
