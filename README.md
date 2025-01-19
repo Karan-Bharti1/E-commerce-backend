@@ -27,7 +27,7 @@ I am currently learning Full Stack Web Development with a focus on the MERN stac
 
 
 - API to get all Products Data 
-- APT to get product data by Id
+- API to get product data by Id
 - API to get all product data by category Id
 - API to get all categories data
 - API to post new Product data
