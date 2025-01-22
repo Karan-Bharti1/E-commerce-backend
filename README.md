@@ -51,7 +51,7 @@ I am currently learning Full Stack Web Development with a focus on the MERN stac
 - API to post new orders data
 - API to get all orders data
 - API to get order by order Id
-
+- API to get address data by Id
 
 ## Mongoose Models 
 
