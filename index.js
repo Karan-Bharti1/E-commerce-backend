@@ -413,6 +413,27 @@ app.delete("/address/:addressId",async (req,res) => {
         res.status(500).json({error:"Failed to delete address data"})
     }
 })
+const readAddressDataById=async (addressId) => {
+    try {
+       const addressData=await Address.findById(addressId) 
+       return addressData
+    } catch (error) {
+        throw error
+    }
+}
+app.get("/address/:addressId",async(req,res)=>{
+    try {
+    const addressData=await readAddressDataById(req.params.addressId)    
+    if(addressData){
+        res.status(200).json(addressData)
+    }else{
+        res.status(404).json({error:"Address Not Found"})
+    }
+    } catch (error) {
+       res.status(500).json({error:"Failed to get address data"}) 
+    }
+})
+
 const readAllAddressData=async()=>{
     try {
        const addressData=await Address.find()
